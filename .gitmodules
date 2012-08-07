@@ -1,0 +1,3 @@
+[submodule "node_modules/basecamp"]
+	path = node_modules/basecamp
+	url = https://github.com/oxyc/node-basecamp.git
