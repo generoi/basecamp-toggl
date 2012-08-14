@@ -60,7 +60,8 @@ function getTime() {
     return r;
   }
 
-  var today = new Date();
+  var offset = 1000 * 60 * 5 // 5 minutes
+    , today = new Date( (new Date()).getTime() - offset );
 
   return today.getUTCFullYear() +
     '-' + pad( today.getUTCMonth() + 1 ) +
