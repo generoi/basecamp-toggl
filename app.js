@@ -8,7 +8,7 @@ var Basecamp = require('basecamp')
   , created_project = /created the project: (.*)/
   , created_todolist = /created a to-do list: (.*)/
   , client_project = /([^\-]+)\s+-\s+(.*)/
-  , last_update = '2012-08-01T17:00:00+03:00'
+  , last_update = '2012-08-02T03:00:00+00:00'
   , CACHE_FILE = '/tmp/basecamp-toggl'
   , GENERO_WORKSPACE = { id : config.toggl_workspace };
 
@@ -35,6 +35,7 @@ var togglTasks = new Toggl.Tasks();
 
 fs.readFile(CACHE_FILE, 'utf8', function (err, data) {
   last_update = err ? getTime() : data;
+  //console.log('Last update: ' + last_update + ', Current: '+ getTime());
   fs.writeFile(CACHE_FILE, getTime());
   getBasecampEvents();
 });
@@ -204,6 +205,7 @@ function createTodo(obj) {
 }
 
 app.on('basecamp:new-project', function(obj) {
+  console.log('found new project');
   if (typeof obj.client !== 'undefined') {
     app.on('toggl:found-client toggl:created-client', function(client) {
       createProject(obj.name, client);
@@ -215,6 +217,7 @@ app.on('basecamp:new-project', function(obj) {
 });
 
 app.on('basecamp:new-todolist', function(obj) {
+  console.log('found new todolist');
   var project = togglProjects.where({name: obj.project.name});
 
   if (project.length) {
